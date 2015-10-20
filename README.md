@@ -1,6 +1,7 @@
 # speedcam
 A rate limiting middleware for express which produces `X-RateLimit-*` headers
 
+![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)
 [![circleci](https://circleci.com/gh/teamguideio/speedcam.png?style=shield)](https://circleci.com/gh/teamguideio/speedcam)
 [![Dependency Status](https://david-dm.org/teamguideio/speedcam.svg)](https://david-dm.org/teamguideio/speedcam)
 [![Dev Dependency Status](https://david-dm.org/teamguideio/speedcam/dev-status.svg)](https://david-dm.org/teamguideio/speedcam#info=devDependencies)
