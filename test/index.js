@@ -52,6 +52,9 @@ describe("speedcam", function() {
       middleware(req, res, next);
     }
 
+    assert("X-RateLimit-Limit");
+    assert("X-RateLimit-Remaining");
+    assert("X-RateLimit-Reset");
     assert.equal(next.callCount, 10);
     assert.equal(res.send.callCount, 2);
     assert(res.send.calledWith(429, "Too Many Requests"));
@@ -82,6 +85,9 @@ describe("speedcam", function() {
       middleware(lodash.assign(req, {url: "/foo/"+i}), res, next);
     }
 
+    assert("X-RateLimit-Limit");
+    assert("X-RateLimit-Remaining");
+    assert("X-RateLimit-Reset");
     assert.equal(next.callCount, 10);
     assert.equal(res.send.callCount, 2);
     assert(res.send.calledWith(429, "Too Many Requests"));
