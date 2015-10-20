@@ -1,0 +1,15 @@
+{
+  "name": "speedcam",
+  "version": "0.0.0",
+  "scripts": {
+    "test": "mocha test/index.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3",
+    "lodash": "^3.10.1",
+    "sinon": "^1.17.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.3"
+  }
+}
