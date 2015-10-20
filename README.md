@@ -36,4 +36,4 @@ To use in nodejs
 
 
 ## License
-MIT
+[MIT](LICENSE)
