@@ -1,3 +1,5 @@
+var rateLimitHeader = require("rate-limit-headers");
+
 var counts = {};
 var resets = {};
 
@@ -36,10 +38,18 @@ module.exports = function(opts) {
     counts[uuid] = counts[uuid] || 0;
     counts[uuid]++;
 
-    // Set the rate limit headers
-    res.headers["X-RateLimit-Limit"]     = limit;
-    res.headers["X-RateLimit-Remaining"] = counts[uuid] || 0;
-    res.headers["X-RateLimit-Reset"]     = resets[uuid];
+    var headers = rateLimitHeader.unparse({
+      limit: limit,
+      remaining: counts[uuid] || 0,
+      reset: resets[uuid]
+    })
+
+    // Merge in headers.
+    for(var k in headers) {
+      if(headers.hasOwnProperty(k)) {
+        res.headers[k] = headers[k];
+      }
+    }
 
     if(counts[uuid] > limit) {
       res.send(429, "Too Many Requests");
