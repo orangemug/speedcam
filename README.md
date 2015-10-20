@@ -1,5 +1,9 @@
 # speedcam
-A rate limiting middleware for express which produces the correct headers.
+A rate limiting middleware for express which produces `X-RateLimit-*` headers
+
+    X-RateLimit-Limit
+    X-RateLimit-Remaining
+    X-RateLimit-Reset
 
 
 ## Install
@@ -8,7 +12,8 @@ To install
 		npm install speedcam
 
 
-## Node usage
+## Usage
+To use in nodejs
 
 		var speedcam = require("speedcam");
 
@@ -19,14 +24,9 @@ To install
 				window: 15000
 			}),
 			function(req, res) {
+        res.send("foo");
 			}
 		);
-
-
-## CLI usage
-For a test server you can use a forwarding app
-
-		./bin/speedcam-server --limit 60 --window 60000 --forward http://localhost:5000
 
 
 ## License

@@ -1,7 +1,8 @@
 var assert   = require("assert");
-var speedcam = require("../");
 var lodash   = require("lodash");
 var sinon    = require("sinon");
+var speedcam = require("../");
+
 
 describe("speedcam", function() {
 
@@ -12,8 +13,6 @@ describe("speedcam", function() {
     } catch(_err) {
       err = _err;
     }
-
-    console.log(">>> err", err);
 
     assert(err.message, "Missing param 'window'");
   });
