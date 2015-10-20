@@ -15,24 +15,24 @@ The following headers are produced as outlined <https://developer.github.com/v3/
 ## Install
 To install
 
-		npm install speedcam
+    npm install speedcam
 
 
 ## Usage
 To use in nodejs
 
-		var speedcam = require("speedcam");
+    var speedcam = require("speedcam");
 
-		app.get(
-			"/foo",
-			speedcam({
-				limit: 1000,
-				window: 15000
-			}),
-			function(req, res) {
+    app.get(
+      "/foo",
+      speedcam({
+        limit: 1000,
+        window: 15000
+      }),
+      function(req, res) {
         res.send("foo");
-			}
-		);
+      }
+    );
 
 
 ## License
