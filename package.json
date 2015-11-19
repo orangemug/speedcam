@@ -7,7 +7,7 @@
   "dependencies": {
     "express": "^4.13.3",
     "lodash": "^3.10.1",
-    "rate-limit-headers": "git://github.com/teamguideio/rate-limit-headers#v0.1.0",
+    "rate-limit-headers": "git://github.com/orangemug/rate-limit-headers#v0.1.0",
     "sinon": "^1.17.1"
   },
   "devDependencies": {
