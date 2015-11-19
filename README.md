@@ -21,7 +21,7 @@ The following headers are produced as outlined <https://developer.github.com/v3/
 ## Install
 To install
 
-    npm install git://github.com/teamguideio/speedcam.git --save
+    npm install git://github.com/orangemug/speedcam.git --save
 
 
 ## Usage
