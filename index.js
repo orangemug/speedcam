@@ -1,8 +1,5 @@
 var rateLimitHeader = require("rate-limit-headers");
 
-var counts = {};
-var resets = {};
-
 function ipUserUrl(req) {
   return [
     req.ip,
@@ -12,6 +9,9 @@ function ipUserUrl(req) {
 }
 
 module.exports = function(opts) {
+  var counts = {};
+  var resets = {};
+
   var limit      = opts.limit;
   var timeWindow = opts.window;
   var reqIdFn    = opts.reqIdFn || ipUserUrl;
@@ -38,9 +38,11 @@ module.exports = function(opts) {
     counts[uuid] = counts[uuid] || 0;
     counts[uuid]++;
 
+    var remaining = limit - counts[uuid];
+
     var headers = rateLimitHeader.unparse({
       limit: limit,
-      remaining: counts[uuid] || 0,
+      remaining: Math.max(remaining, 0),
       reset: resets[uuid]
     })
 

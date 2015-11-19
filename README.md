@@ -51,7 +51,7 @@ var server = app.listen(0, function () {
   got("localhost:"+port, function(err, body, res) {
     assert.ifError(err);
     assert.equal(res.headers["x-ratelimit-limit"], 1000)
-    assert.equal(res.headers["x-ratelimit-remaining"], 1)
+    assert.equal(res.headers["x-ratelimit-remaining"], 999)
     assert("x-ratelimit-reset")
     server.close();
   });

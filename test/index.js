@@ -5,6 +5,13 @@ var speedcam     = require("../");
 var readmeTester = require("readme-tester");
 
 
+function setHeader(k, v) {
+  this.headers[k.toLowerCase()] = v;
+}
+
+function nullFn() {}
+
+
 describe("speedcam", function() {
 
   it("should error if no 'window' passed", function() {
@@ -15,7 +22,7 @@ describe("speedcam", function() {
       err = _err;
     }
 
-    assert(err.message, "Missing param 'window'");
+    assert.equal(err.message, "Missing param 'limit'");
   });
 
   it("should error if no 'limit' passed", function() {
@@ -26,7 +33,7 @@ describe("speedcam", function() {
       err = _err;
     }
 
-    assert(err.message, "Missing param 'limit'");
+    assert.equal(err.message, "Missing param 'window'");
   });
 
   it("should error with 429 once limit is reached", function() {
@@ -45,9 +52,7 @@ describe("speedcam", function() {
 
     var next = sinon.spy();
     var res = {
-			setHeader: function(k, v) {
-				this.headers[k] = v;
-			},
+			setHeader: setHeader,
       headers: {},
       send: sinon.spy()
     };
@@ -56,9 +61,9 @@ describe("speedcam", function() {
       middleware(req, res, next);
     }
 
-    assert("X-RateLimit-Limit");
-    assert("X-RateLimit-Remaining");
-    assert("X-RateLimit-Reset");
+    assert.equal(res.headers["x-ratelimit-limit"], 10);
+    assert.equal(res.headers["x-ratelimit-remaining"], 0);
+    assert(res.headers["x-ratelimit-reset"]);
     assert.equal(next.callCount, 10);
     assert.equal(res.send.callCount, 2);
     assert(res.send.calledWith(429, "Too Many Requests"));
@@ -81,9 +86,7 @@ describe("speedcam", function() {
 
     var next = sinon.spy();
     var res = {
-			setHeader: function(k, v) {
-				this.headers[k] = v;
-			},
+			setHeader: setHeader,
       headers: {},
       send: sinon.spy()
     };
@@ -92,12 +95,46 @@ describe("speedcam", function() {
       middleware(lodash.assign(req, {url: "/foo/"+i}), res, next);
     }
 
-    assert("X-RateLimit-Limit");
-    assert("X-RateLimit-Remaining");
-    assert("X-RateLimit-Reset");
+    assert.equal(res.headers["x-ratelimit-limit"], 10);
+    assert.equal(res.headers["x-ratelimit-remaining"], 0);
+    assert(res.headers["x-ratelimit-reset"]);
     assert.equal(next.callCount, 10);
     assert.equal(res.send.callCount, 2);
     assert(res.send.calledWith(429, "Too Many Requests"));
+  });
+
+  it("should reduce x-ratelimit-remaining by 1 on each call", function() {
+    var middleware = speedcam({
+      limit: 10,
+      window: 60*1000,
+      reqIdFn: function(req) {
+        return req.headers.uid;
+      }
+    });
+
+    var req = {
+      headers: {
+        uid: 1
+      }
+    };
+
+    var next = sinon.spy();
+    var res = {
+			setHeader: setHeader,
+      headers: {},
+      send: sinon.spy()
+    };
+
+    middleware(lodash.assign(req, {url: "/foo/"}), res, nullFn);
+
+    assert.equal(res.headers["x-ratelimit-limit"], 10);
+    assert.equal(res.headers["x-ratelimit-remaining"], 9);
+    assert(res.headers["x-ratelimit-reset"]);
+
+    middleware(lodash.assign(req, {url: "/foo/"}), res, nullFn);
+    assert.equal(res.headers["x-ratelimit-limit"], 10);
+    assert.equal(res.headers["x-ratelimit-remaining"], 8);
+    assert(res.headers["x-ratelimit-reset"]);
   });
 
 	it("README should show no errors", function(done) {
