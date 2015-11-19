@@ -6,7 +6,7 @@ var resets = {};
 function ipUserUrl(req) {
   return [
     req.ip,
-    req.user.id,
+    (req.user ? (req.user.id || "") : ""),
     req.url
   ].join(":");
 }
@@ -47,7 +47,7 @@ module.exports = function(opts) {
     // Merge in headers.
     for(var k in headers) {
       if(headers.hasOwnProperty(k)) {
-        res.headers[k] = headers[k];
+        res.setHeader(k, headers[k]);
       }
     }
 

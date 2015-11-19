@@ -1,7 +1,8 @@
-var assert   = require("assert");
-var lodash   = require("lodash");
-var sinon    = require("sinon");
-var speedcam = require("../");
+var assert       = require("assert");
+var lodash       = require("lodash");
+var sinon        = require("sinon");
+var speedcam     = require("../");
+var readmeTester = require("readme-tester");
 
 
 describe("speedcam", function() {
@@ -44,6 +45,9 @@ describe("speedcam", function() {
 
     var next = sinon.spy();
     var res = {
+			setHeader: function(k, v) {
+				this.headers[k] = v;
+			},
       headers: {},
       send: sinon.spy()
     };
@@ -77,6 +81,9 @@ describe("speedcam", function() {
 
     var next = sinon.spy();
     var res = {
+			setHeader: function(k, v) {
+				this.headers[k] = v;
+			},
       headers: {},
       send: sinon.spy()
     };
@@ -92,5 +99,12 @@ describe("speedcam", function() {
     assert.equal(res.send.callCount, 2);
     assert(res.send.calledWith(429, "Too Many Requests"));
   });
+
+	it("README should show no errors", function(done) {
+		readmeTester(__dirname+"/../", function(err) {
+			assert.ifError(err);
+			done();
+		});
+	});
 
 });

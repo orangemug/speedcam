@@ -11,6 +11,9 @@
     "sinon": "^1.17.1"
   },
   "devDependencies": {
-    "mocha": "^2.3.3"
+    "express": "^4.13.3",
+    "got": "^5.1.0",
+    "mocha": "^2.3.3",
+    "readme-tester": "git://github.com/orangemug/readme-tester.git#v0.3.0"
   }
 }
