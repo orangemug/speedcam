@@ -1,12 +1,12 @@
 # speedcam
 A rate limiting middleware for express which produces `X-RateLimit-*` headers
 
-[![stability-experimental](https://img.shields.io/badge/stability-experimental-green.svg)][stability]
+[![stability-unstable](https://img.shields.io/badge/stability-unstable-yellow.svg)][stability]
 [![circleci](https://circleci.com/gh/orangemug/speedcam.png?style=shield)][circleci]
 [![Dependency Status](https://david-dm.org/orangemug/speedcam.svg)][dm-prod]
 [![Dev Dependency Status](https://david-dm.org/orangemug/speedcam/dev-status.svg)][dm-dev]
 
-[stability]: https://github.com/orangemug/stability-badges#experimental
+[stability]: https://github.com/orangemug/stability-badges#unstable
 [circleci]:  https://circleci.com/gh/orangemug/speedcam
 [dm-prod]:   https://david-dm.org/orangemug/speedcam
 [dm-dev]:    https://david-dm.org/orangemug/speedcam#info=devDependencies
